@@ -1,0 +1,18 @@
+.venv/
+.mondovoca/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.env
+models/
+*.wav
+*.flac
+*.pt
+*.onnx
+
+# Local development notes, not published to GitHub
+TODO.md
+VERIFICATION.md
+AGENTS.md

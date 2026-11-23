@@ -1,0 +1,648 @@
+/* Colour only, with one exception recorded in UI_STYLE_BIBLE.md: the two retro CRT skins also
+   set a monospace page font, a faint sidebar scanline texture and a phosphor heading glow, both
+   off under prefers-reduced-motion. Native controls, dimensions and interaction remain shared by
+   every skin. Stereo rendering and model/material/light colours retain their physical meaning. */
+html :is(label.h,#reftoggle,.phead,.tabs button.on) {
+  color:var(--heading-accent,var(--secondary,var(--accent)));
+}
+
+html[data-theme="purple"] {
+  --bg:#100d19; --sidebar:#181222; --panel:#20192e; --panel2:#2c2340;
+  --line:#56476e; --text:#eee9f8; --dim:#b9adcb;
+  --accent:#b49aef; --accent2:#513778; --bad:#ff8c79; --ok:#89cdb0;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#a093b5;
+  --warn:#e0bc73; --err:var(--bad);
+}
+html[data-theme="purple"] button.primary:hover { color:var(--bg) }
+html[data-theme="purple"] .slot.prime .drop:not(.over) {
+  border-color:#b49aef66; box-shadow:0 0 6px #b49aef40;
+}
+html[data-theme="purple"] #refclear:hover:not(:disabled), html[data-theme="purple"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="purple"] #refbox.closed.untagged .fold {
+  border-color:#ff8c798c; box-shadow:0 0 6px #ff8c7959;
+}
+html[data-theme="purple"] #warn { background:#362426; border-color:#86544b }
+html[data-theme="purple"] .tile.bad { border-color:#86544b }
+
+html[data-theme="purple"] .prow:hover, html[data-theme="purple"] .prow.active { background:#3d3055 }
+html[data-theme="purple"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #b49aef0f, transparent 70%),var(--bg);
+}
+html[data-theme="purple"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #b49aef24, transparent 70%),var(--bg);
+}
+
+/* Charcoal surfaces with restrained sage accents. */
+html[data-theme="sage"] {
+  --bg:#151817; --sidebar:#1c211e; --panel:#232a25; --panel2:#2e3831;
+  --line:#536659; --text:#edf2ed; --dim:#b4c1b6;
+  --accent:#a5bfa1; --accent2:#40583f; --bad:#f19588; --ok:#abcba4;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#9aaf9e;
+  --warn:#dbc181; --err:var(--bad);
+}
+html[data-theme="sage"] button.primary:hover { color:var(--bg) }
+html[data-theme="sage"] .slot.prime .drop:not(.over) {
+  border-color:#a5bfa166; box-shadow:0 0 6px #a5bfa140;
+}
+html[data-theme="sage"] #refclear:hover:not(:disabled), html[data-theme="sage"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="sage"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="sage"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="sage"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="sage"] .prow:hover, html[data-theme="sage"] .prow.active { background:#3c4b3e }
+html[data-theme="sage"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #a5bfa10f, transparent 70%),var(--bg);
+}
+html[data-theme="sage"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #a5bfa124, transparent 70%),var(--bg);
+}
+
+/* Dark navy surfaces with clear blue selection accents. */
+html[data-theme="midnight"] {
+  --bg:#101722; --sidebar:#161f2e; --panel:#1d293b; --panel2:#29384d;
+  --line:#506581; --text:#eaf0f8; --dim:#b0bfd2;
+  --accent:#8ac5ff; --accent2:#28669c; --bad:#f19588; --ok:#a5c7b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#95a8c0;
+  --warn:#d9bd86; --err:var(--bad);
+}
+html[data-theme="midnight"] button.primary:hover { color:var(--bg) }
+html[data-theme="midnight"] .slot.prime .drop:not(.over) {
+  border-color:#8ac5ff66; box-shadow:0 0 6px #8ac5ff40;
+}
+html[data-theme="midnight"] #refclear:hover:not(:disabled), html[data-theme="midnight"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="midnight"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="midnight"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="midnight"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="midnight"] .prow:hover { background:#354b68 }
+html[data-theme="midnight"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="midnight"] { accent-color:var(--accent) }
+html[data-theme="midnight"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="midnight"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="midnight"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #8ac5ff0f, transparent 70%),var(--bg);
+}
+html[data-theme="midnight"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #8ac5ff24, transparent 70%),var(--bg);
+}
+
+/* Warm graphite surfaces with muted amber accents. */
+html[data-theme="amber"] {
+  --bg:#1a1816; --sidebar:#221f1b; --panel:#2b2722; --panel2:#38322b;
+  --line:#746451; --text:#f3ece2; --dim:#c8bba9;
+  --accent:#d0ad75; --accent2:#69502f; --bad:#f19588; --ok:#a5c7b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#b3a18a;
+  --warn:#dfbf87; --err:var(--bad);
+}
+html[data-theme="amber"] button.primary:hover { color:var(--bg) }
+html[data-theme="amber"] .slot.prime .drop:not(.over) {
+  border-color:#d0ad7566; box-shadow:0 0 6px #d0ad7540;
+}
+html[data-theme="amber"] #refclear:hover:not(:disabled), html[data-theme="amber"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="amber"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="amber"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="amber"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="amber"] .prow:hover, html[data-theme="amber"] .prow.active { background:#4b3e2e }
+html[data-theme="amber"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #d0ad750f, transparent 70%),var(--bg);
+}
+html[data-theme="amber"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #d0ad7524, transparent 70%),var(--bg);
+}
+
+/* Near-black ink surfaces with subdued yellow-green olive accents. */
+html[data-theme="olive"] {
+  --bg:#101210; --sidebar:#181b16; --panel:#21251d; --panel2:#2e3327;
+  --line:#626b4b; --text:#eef0e5; --dim:#bdc3ac;
+  --accent:#b3bc84; --accent2:#515c32; --bad:#f19588; --ok:#a5c7b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#a1ac8b;
+  --warn:#d3c18a; --err:var(--bad);
+}
+html[data-theme="olive"] button.primary:hover { color:var(--bg) }
+html[data-theme="olive"] .slot.prime .drop:not(.over) {
+  border-color:#b3bc8466; box-shadow:0 0 6px #b3bc8440;
+}
+html[data-theme="olive"] #refclear:hover:not(:disabled), html[data-theme="olive"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="olive"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="olive"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="olive"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="olive"] .prow:hover, html[data-theme="olive"] .prow.active { background:#3f482e }
+html[data-theme="olive"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #b3bc840f, transparent 70%),var(--bg);
+}
+html[data-theme="olive"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #b3bc8424, transparent 70%),var(--bg);
+}
+
+/* Deep aubergine surfaces with soft neutral pewter accents; no pink. */
+html[data-theme="aubergine"] {
+  --bg:#17121c; --sidebar:#201a27; --panel:#2a2233; --panel2:#382e42;
+  --line:#726879; --text:#f0edf3; --dim:#c4bdca;
+  --accent:#bbbfc6; --accent2:#514b5b; --bad:#f19588; --ok:#a5c7b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#aaa1b3;
+  --warn:#d3c18a; --err:var(--bad);
+}
+html[data-theme="aubergine"] button.primary:hover { color:var(--bg) }
+html[data-theme="aubergine"] .slot.prime .drop:not(.over) {
+  border-color:#bbbfc666; box-shadow:0 0 6px #bbbfc640;
+}
+html[data-theme="aubergine"] #refclear:hover:not(:disabled), html[data-theme="aubergine"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="aubergine"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="aubergine"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="aubergine"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="aubergine"] .prow:hover, html[data-theme="aubergine"] .prow.active { background:#494052 }
+html[data-theme="aubergine"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #bbbfc60f, transparent 70%),var(--bg);
+}
+html[data-theme="aubergine"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #bbbfc624, transparent 70%),var(--bg);
+}
+
+/* Black, white and neutral gray UI. Media and editor colour data stay intact. */
+html[data-theme="monochrome"] {
+  --generation-idle:#777777;
+  --bg:#101010; --sidebar:#181818; --panel:#222222; --panel2:#303030;
+  --line:#777777; --text:#ffffff; --dim:#c4c4c4;
+  --accent:#eeeeee; --accent2:#505050; --bad:#ffffff; --ok:#cccccc;
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#aaaaaa;
+  --warn:#dddddd; --err:var(--bad);
+  /* These are interface channel labels only; the stereo renderer is unchanged. */
+  --eyeL:#eeeeee; --eyeR:#aaaaaa;
+  accent-color:var(--accent); caret-color:var(--text);
+  scrollbar-color:var(--line) var(--bg); color-scheme:dark;
+}
+html[data-theme="monochrome"] :is(a,input[type=range]) { color:var(--text) }
+html[data-theme="monochrome"] ::selection { background:#eeeeee; color:#101010 }
+html[data-theme="monochrome"] :focus-visible { outline-color:var(--accent) }
+html[data-theme="monochrome"] :is(button.primary:hover,.btn.primary,.mark .chip) { color:#101010 }
+html[data-theme="monochrome"] .slot.prime .drop:not(.over) {
+  border-color:#eeeeee66; box-shadow:0 0 6px #eeeeee40;
+}
+html[data-theme="monochrome"] #refclear:hover:not(:disabled), html[data-theme="monochrome"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="monochrome"] #refbox.closed.untagged .fold {
+  border-color:#ffffff8c; box-shadow:0 0 6px #ffffff59;
+}
+html[data-theme="monochrome"] #warn { background:#303030; border-color:#aaaaaa }
+html[data-theme="monochrome"] .tile.bad { border-color:#aaaaaa }
+html[data-theme="monochrome"] #cheaperflag { color:var(--warn) }
+html[data-theme="monochrome"] .prow:hover, html[data-theme="monochrome"] .prow.active { background:#444444 }
+html[data-theme="monochrome"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #eeeeee0f, transparent 70%),var(--bg);
+}
+html[data-theme="monochrome"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #eeeeee24, transparent 70%),var(--bg);
+}
+/* Keep native menus and their emoji markers neutral, along with price markers.
+   Never filter a container holding references, results, canvases or colour swatches. */
+html[data-theme="monochrome"] :is(select,#cheaper,#cheaperflag,.modelgrid .chk > span) { filter:grayscale(1) }
+html[data-theme="monochrome"] option:checked { background:#505050; color:#ffffff }
+
+/* Deep espresso surfaces with muted soft copper accents. */
+html[data-theme="espresso"] {
+  --bg:#191310; --sidebar:#231a16; --panel:#2e231d; --panel2:#3d2e26;
+  --line:#806858; --text:#f4ece5; --dim:#cebbad;
+  --accent:#cfaa8e; --accent2:#704d38; --bad:#f19588; --ok:#a5c7b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#b69e8c;
+  --warn:#dfc08c; --err:var(--bad);
+}
+html[data-theme="espresso"] button.primary:hover { color:var(--bg) }
+html[data-theme="espresso"] .slot.prime .drop:not(.over) {
+  border-color:#cfaa8e66; box-shadow:0 0 6px #cfaa8e40;
+}
+html[data-theme="espresso"] #refclear:hover:not(:disabled), html[data-theme="espresso"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="espresso"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="espresso"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="espresso"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="espresso"] .prow:hover, html[data-theme="espresso"] .prow.active { background:#503b2e }
+html[data-theme="espresso"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #cfaa8e0f, transparent 70%),var(--bg);
+}
+html[data-theme="espresso"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #cfaa8e24, transparent 70%),var(--bg);
+}
+
+/* Cool storm-grey surfaces with pale ice-blue accents; pairs with Midnight blue and slate. */
+html[data-theme="storm"] {
+  --bg:#121518; --sidebar:#191d22; --panel:#20252b; --panel2:#2b323a;
+  --line:#5a6673; --text:#edf1f5; --dim:#b6bfc9;
+  --accent:#a9cbe6; --accent2:#45698a; --bad:#f19588; --ok:#a5c7b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#9ba7b4;
+  --warn:#d9bd86; --err:var(--bad);
+}
+html[data-theme="storm"] button.primary:hover { color:var(--bg) }
+html[data-theme="storm"] .slot.prime .drop:not(.over) {
+  border-color:#a9cbe666; box-shadow:0 0 6px #a9cbe640;
+}
+html[data-theme="storm"] #refclear:hover:not(:disabled), html[data-theme="storm"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="storm"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="storm"] #warn { background:#362825; border-color:#855c52 }
+html[data-theme="storm"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="storm"] .prow:hover { background:#3c4a58 }
+html[data-theme="storm"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="storm"] { accent-color:var(--accent) }
+html[data-theme="storm"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="storm"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="storm"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #a9cbe60f, transparent 70%),var(--bg);
+}
+html[data-theme="storm"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #a9cbe624, transparent 70%),var(--bg);
+}
+
+/* Near-black blue-green abyss surfaces with a pale seafoam accent; pairs with Dark teal. */
+html[data-theme="abyss"] {
+  --bg:#060d0e; --sidebar:#0a1516; --panel:#0e1c1e; --panel2:#15292b;
+  --line:#2f5052; --text:#e6f3f0; --dim:#a2bdb8;
+  --accent:#9fdcc8; --accent2:#2a6455; --bad:#f19588; --ok:#a6d6b8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#86a49e;
+  --warn:#dbc181; --err:var(--bad);
+}
+html[data-theme="abyss"] button.primary:hover { color:var(--bg) }
+html[data-theme="abyss"] .slot.prime .drop:not(.over) {
+  border-color:#9fdcc866; box-shadow:0 0 6px #9fdcc840;
+}
+html[data-theme="abyss"] #refclear:hover:not(:disabled), html[data-theme="abyss"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="abyss"] #refbox.closed.untagged .fold {
+  border-color:#f195888c; box-shadow:0 0 6px #f1958859;
+}
+html[data-theme="abyss"] #warn { background:#33221f; border-color:#855c52 }
+html[data-theme="abyss"] .tile.bad { border-color:#855c52 }
+
+html[data-theme="abyss"] .prow:hover { background:#1f3a39 }
+html[data-theme="abyss"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="abyss"] { accent-color:var(--accent) }
+html[data-theme="abyss"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="abyss"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="abyss"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #9fdcc80f, transparent 70%),var(--bg);
+}
+html[data-theme="abyss"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #9fdcc824, transparent 70%),var(--bg);
+}
+
+/* Galactic: violet surfaces, cyan actions and magenta secondary accents. */
+html[data-theme="galactic"] {
+  --bg:#130d20; --sidebar:#1c122e; --panel:#26183b; --panel2:#33224d;
+  --line:#654981; --text:#f3edf9; --dim:#bfb0d2;
+  --accent:#65dce8; --accent2:#205763; --secondary:#ed86d5;
+  --bad:#ff806f; --ok:#65dce8;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#a797bd;
+  --warn:var(--secondary); --err:var(--bad);
+}
+html[data-theme="galactic"] button.primary:hover { color:var(--bg) }
+html[data-theme="galactic"] #cheaperflag { color:var(--secondary) }
+html[data-theme="galactic"] .chip.on { background:#55264f; border-color:var(--secondary) }
+html[data-theme="galactic"] .tabs button.on { border-bottom-color:var(--secondary) }
+html[data-theme="galactic"] .slot.prime .drop:not(.over) {
+  border-color:#ed86d566; box-shadow:0 0 6px #ed86d540;
+}
+html[data-theme="galactic"] #refclear:hover:not(:disabled), html[data-theme="galactic"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="galactic"] #refbox.closed.untagged .fold {
+  border-color:#ff806f8c; box-shadow:0 0 6px #ff806f59;
+}
+html[data-theme="galactic"] #warn { background:#361d36; border-color:#955084 }
+html[data-theme="galactic"] .tile.bad { border-color:#955084 }
+
+html[data-theme="galactic"] .prow:hover { background:#402b59 }
+html[data-theme="galactic"] .prow.active { background:#55264f; box-shadow:inset 3px 0 var(--secondary) }
+html[data-theme="galactic"] { accent-color:var(--accent) }
+html[data-theme="galactic"] ::selection { background:var(--secondary); color:var(--bg) }
+html[data-theme="galactic"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="galactic"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 35% 40%, #ed86d51a, transparent 70%),radial-gradient(ellipse 60% 50% at 65% 60%, #65dce81a, transparent 70%),var(--bg);
+}
+html[data-theme="galactic"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 35% 40%, #ed86d533, transparent 70%),radial-gradient(ellipse 60% 50% at 65% 60%, #65dce833, transparent 70%),var(--bg);
+}
+
+/* Deep garnet surfaces with warm ivory text and salmon accents. */
+html[data-theme="garnet"] {
+  --bg:#1c1012; --sidebar:#271619; --panel:#331e22; --panel2:#43292e;
+  --line:#82545b; --text:#f5eddf; --dim:#d2beb4;
+  --accent:#f28d82; --accent2:#82383e; --bad:#ffb16f; --ok:#a9c99b;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#b49a92;
+  --warn:#e4bf7b; --err:var(--bad);
+}
+html[data-theme="garnet"] button.primary:hover { color:var(--bg) }
+html[data-theme="garnet"] .slot.prime .drop:not(.over) {
+  border-color:#f28d8266; box-shadow:0 0 6px #f28d8240;
+}
+html[data-theme="garnet"] #refclear:hover:not(:disabled), html[data-theme="garnet"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="garnet"] #refbox.closed.untagged .fold {
+  border-color:#ffb16f8c; box-shadow:0 0 6px #ffb16f59;
+}
+html[data-theme="garnet"] #warn { background:#3c291d; border-color:#a96c41 }
+html[data-theme="garnet"] .tile.bad { border-color:#a96c41 }
+
+html[data-theme="garnet"] .prow:hover { background:#593239 }
+html[data-theme="garnet"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="garnet"] { accent-color:var(--accent) }
+html[data-theme="garnet"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="garnet"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="garnet"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #f28d820f, transparent 70%),var(--bg);
+}
+html[data-theme="garnet"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #f28d8224, transparent 70%),var(--bg);
+}
+
+/* Near-black claret surfaces with pearl text and a soft salmon accent; pairs with Garnet and ivory. */
+html[data-theme="claret"] {
+  --bg:#100b0f; --sidebar:#1a1015; --panel:#23171e; --panel2:#322129;
+  --line:#71535f; --text:#f3eee8; --dim:#cbb9bf;
+  --accent:#e8a59a; --accent2:#6d3549; --bad:#f2ba77; --ok:#a5c8ad;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#ae949e;
+  --warn:#dac18d; --err:var(--bad);
+}
+html[data-theme="claret"] button.primary:hover { color:var(--bg) }
+html[data-theme="claret"] .slot.prime .drop:not(.over) {
+  border-color:#e8a59a66; box-shadow:0 0 6px #e8a59a40;
+}
+html[data-theme="claret"] #refclear:hover:not(:disabled), html[data-theme="claret"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="claret"] #refbox.closed.untagged .fold {
+  border-color:#f2ba778c; box-shadow:0 0 6px #f2ba7759;
+}
+html[data-theme="claret"] #warn { background:#34271d; border-color:#96734a }
+html[data-theme="claret"] .tile.bad { border-color:#96734a }
+
+html[data-theme="claret"] .prow:hover { background:#462c39 }
+html[data-theme="claret"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="claret"] { accent-color:var(--accent) }
+html[data-theme="claret"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="claret"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="claret"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #e8a59a0f, transparent 70%),var(--bg);
+}
+html[data-theme="claret"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #e8a59a24, transparent 70%),var(--bg);
+}
+
+/* Graphite surfaces with bone text and a saturated scarlet accent; the first actual red theme. */
+html[data-theme="scarlet"] {
+  --heading-accent:var(--warn);
+  --bg:#111214; --sidebar:#17191c; --panel:#1f2226; --panel2:#2b2f34;
+  --line:#5e646c; --text:#f1f1ee; --dim:#bec2c7;
+  --accent:#ff3b30; --accent2:#a3202a; --bad:#f5b25c; --ok:#9cc7a4;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#9aa0a7;
+  --warn:#dcc58a; --err:var(--bad);
+}
+html[data-theme="scarlet"] button.primary:hover { color:var(--bg) }
+html[data-theme="scarlet"] .slot.prime .drop:not(.over) {
+  border-color:#ff3b3066; box-shadow:0 0 6px #ff3b3040;
+}
+html[data-theme="scarlet"] #refclear:hover:not(:disabled), html[data-theme="scarlet"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="scarlet"] #refbox.closed.untagged .fold {
+  border-color:#f5b25c8c; box-shadow:0 0 6px #f5b25c59;
+}
+html[data-theme="scarlet"] #warn { background:#33281a; border-color:#8f6c3a }
+html[data-theme="scarlet"] .tile.bad { border-color:#8f6c3a }
+
+html[data-theme="scarlet"] .prow:hover { background:#3b2428 }
+html[data-theme="scarlet"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="scarlet"] { accent-color:var(--accent) }
+html[data-theme="scarlet"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="scarlet"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="scarlet"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #ff3b300f, transparent 70%),var(--bg);
+}
+html[data-theme="scarlet"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #ff3b3024, transparent 70%),var(--bg);
+}
+
+/* Steel-blue surfaces with cool white text and a crimson-red accent; companion to Scarlet and graphite. */
+html[data-theme="crimson"] {
+  --heading-accent:var(--warn);
+  --bg:#0f141a; --sidebar:#151b23; --panel:#1c242e; --panel2:#28323f;
+  --line:#566374; --text:#eef1f5; --dim:#b4bdc9;
+  --accent:#ff2f40; --accent2:#b01c33; --bad:#f5b25c; --ok:#9cc7a4;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#94a0b0;
+  --warn:#dcc58a; --err:var(--bad);
+}
+html[data-theme="crimson"] button.primary:hover { color:var(--bg) }
+html[data-theme="crimson"] .slot.prime .drop:not(.over) {
+  border-color:#ff2f4066; box-shadow:0 0 6px #ff2f4040;
+}
+html[data-theme="crimson"] #refclear:hover:not(:disabled), html[data-theme="crimson"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="crimson"] #refbox.closed.untagged .fold {
+  border-color:#f5b25c8c; box-shadow:0 0 6px #f5b25c59;
+}
+html[data-theme="crimson"] #warn { background:#2f291a; border-color:#8a7040 }
+html[data-theme="crimson"] .tile.bad { border-color:#8a7040 }
+
+html[data-theme="crimson"] .prow:hover { background:#2e2230 }
+html[data-theme="crimson"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--accent) }
+html[data-theme="crimson"] { accent-color:var(--accent) }
+html[data-theme="crimson"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="crimson"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="crimson"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #ff2f400f, transparent 70%),var(--bg);
+}
+html[data-theme="crimson"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #ff2f4024, transparent 70%),var(--bg);
+}
+
+/* Deep saturated red surfaces with warm white text, a bright red accent and red selected fills. */
+html[data-theme="cardinal"] {
+  --heading-accent:var(--warn);
+  --bg:#5c0a12; --sidebar:#6a0d17; --panel:#7a111c; --panel2:#921a26;
+  --line:#c4404c; --text:#fff4f2; --dim:#ecd3ce;
+  --accent:#ff4040; --accent2:#d4182a; --bad:#ffc85e; --ok:#a6e3ae;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#d4aaa4;
+  --warn:#ffdc8a; --err:var(--bad);
+}
+html[data-theme="cardinal"] button.primary:hover { color:var(--bg) }
+html[data-theme="cardinal"] .slot.prime .drop:not(.over) {
+  border-color:#fff4f266; box-shadow:0 0 6px #fff4f240;
+}
+html[data-theme="cardinal"] #refclear:hover:not(:disabled), html[data-theme="cardinal"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="cardinal"] #refbox.closed.untagged .fold {
+  border-color:#ffc85e8c; box-shadow:0 0 6px #ffc85e59;
+}
+html[data-theme="cardinal"] #warn { background:#4a2a08; border-color:#b8862f }
+html[data-theme="cardinal"] .tile.bad { border-color:#b8862f }
+
+html[data-theme="cardinal"] .prow:hover { background:#8a1520 }
+html[data-theme="cardinal"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--text) }
+html[data-theme="cardinal"] { accent-color:var(--accent) }
+html[data-theme="cardinal"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="cardinal"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="cardinal"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #fff4f20f, transparent 70%),var(--bg);
+}
+html[data-theme="cardinal"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #fff4f224, transparent 70%),var(--bg);
+}
+
+/* Darker oxblood-red surfaces with warm white text, a warm red accent and red selected fills. */
+html[data-theme="oxblood"] {
+  --heading-accent:var(--warn);
+  --bg:#3d070d; --sidebar:#48090f; --panel:#560c15; --panel2:#6c1220;
+  --line:#a4343f; --text:#f9ebe6; --dim:#dcbfb8;
+  --accent:#ff5248; --accent2:#b3192a; --bad:#ffc261; --ok:#a3dfab;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#c9a29b;
+  --warn:#ffd88a; --err:var(--bad);
+}
+html[data-theme="oxblood"] button.primary:hover { color:var(--bg) }
+html[data-theme="oxblood"] .slot.prime .drop:not(.over) {
+  border-color:#f9ebe666; box-shadow:0 0 6px #f9ebe640;
+}
+html[data-theme="oxblood"] #refclear:hover:not(:disabled), html[data-theme="oxblood"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="oxblood"] #refbox.closed.untagged .fold {
+  border-color:#ffc2618c; box-shadow:0 0 6px #ffc26159;
+}
+html[data-theme="oxblood"] #warn { background:#3a2206; border-color:#a87a2a }
+html[data-theme="oxblood"] .tile.bad { border-color:#a87a2a }
+
+html[data-theme="oxblood"] .prow:hover { background:#621019 }
+html[data-theme="oxblood"] .prow.active { background:var(--accent2); box-shadow:inset 3px 0 var(--text) }
+html[data-theme="oxblood"] { accent-color:var(--accent) }
+html[data-theme="oxblood"] ::selection { background:var(--accent); color:var(--bg) }
+html[data-theme="oxblood"] option:checked { background:var(--accent2); color:var(--text) }
+html[data-theme="oxblood"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #f9ebe60f, transparent 70%),var(--bg);
+}
+html[data-theme="oxblood"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #f9ebe624, transparent 70%),var(--bg);
+}
+
+/* Pure black with one green phosphor hue for every surface, edge, text and fill. */
+html[data-theme="crtgreen"] {
+  --generation-idle:#276127;
+  --bg:#000000; --sidebar:#071507; --panel:#0a1f0a; --panel2:#0f2a0f;
+  --line:#276127; --text:#33ff33; --dim:#1fae1f;
+  --accent:#66ff66; --accent2:#154415; --bad:#8aff8a; --ok:#55f455;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#1da81d;
+  --warn:#71f671; --err:var(--bad);
+  /* These are interface channel labels only; the stereo renderer is unchanged. */
+  --eyeL:#66ff66; --eyeR:#1fae1f;
+  accent-color:var(--accent); caret-color:var(--text);
+  scrollbar-color:var(--line) var(--bg); color-scheme:dark;
+}
+html[data-theme="crtgreen"] button.primary:hover { color:var(--bg) }
+html[data-theme="crtgreen"] .slot.prime .drop:not(.over) {
+  border-color:#66ff6666; box-shadow:0 0 6px #66ff6640;
+}
+html[data-theme="crtgreen"] #refclear:hover:not(:disabled), html[data-theme="crtgreen"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="crtgreen"] #refbox.closed.untagged .fold {
+  border-color:#8aff8a8c; box-shadow:0 0 6px #8aff8a59;
+}
+html[data-theme="crtgreen"] #warn { background:#0f2a0f; border-color:#1da81d }
+html[data-theme="crtgreen"] .tile.bad { border-color:#1da81d }
+html[data-theme="crtgreen"] #cheaperflag { color:var(--warn) }
+
+/* Darker than the selected fill: #154415 would leave the row's secondary text at 3.8:1. */
+html[data-theme="crtgreen"] .prow:hover, html[data-theme="crtgreen"] .prow.active { background:#10300f }
+html[data-theme="crtgreen"] ::selection { background:#154415; color:#33ff33 }
+html[data-theme="crtgreen"] option:checked { background:#154415; color:#33ff33 }
+html[data-theme="crtgreen"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #66ff660f, transparent 70%),var(--bg);
+}
+html[data-theme="crtgreen"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #66ff6624, transparent 70%),var(--bg);
+}
+/* Only the price-marker emoji is neutralized; native menus keep their green text, and the
+   discount tag beside it keeps its own colour. Never filter a container holding references,
+   results, canvases or colour swatches. */
+html[data-theme="crtgreen"] .modelgrid .chk > span[aria-label] { filter:grayscale(1) }
+
+/* Pure black with one amber phosphor hue for every surface, edge, text and fill. */
+html[data-theme="crtamber"] {
+  --generation-idle:#614409;
+  --bg:#000000; --sidebar:#150e00; --panel:#1f1500; --panel2:#2a1d00;
+  --line:#614409; --text:#ffb000; --dim:#c78a00;
+  --accent:#ffc94d; --accent2:#473100; --bad:#ffd57d; --ok:#ffbf2b;
+  /* Stereo Bench names, including aliases used by the shared tooltip. */
+  --panel-2:var(--panel2); --ink:var(--text); --ink-dim:var(--dim); --ink-faint:#b37d00;
+  --warn:#ffca55; --err:var(--bad);
+  /* These are interface channel labels only; the stereo renderer is unchanged. */
+  --eyeL:#ffc94d; --eyeR:#c78a00;
+  accent-color:var(--accent); caret-color:var(--text);
+  scrollbar-color:var(--line) var(--bg); color-scheme:dark;
+}
+html[data-theme="crtamber"] button.primary:hover { color:var(--bg) }
+html[data-theme="crtamber"] .slot.prime .drop:not(.over) {
+  border-color:#ffc94d66; box-shadow:0 0 6px #ffc94d40;
+}
+html[data-theme="crtamber"] #refclear:hover:not(:disabled), html[data-theme="crtamber"] #promptclear:hover:not(:disabled) { color:var(--bad) }
+html[data-theme="crtamber"] #refbox.closed.untagged .fold {
+  border-color:#ffd57d8c; box-shadow:0 0 6px #ffd57d59;
+}
+html[data-theme="crtamber"] #warn { background:#2a1d00; border-color:#b37d00 }
+html[data-theme="crtamber"] .tile.bad { border-color:#b37d00 }
+html[data-theme="crtamber"] #cheaperflag { color:var(--warn) }
+
+/* Darker than the selected fill: #473100 would leave the row's secondary text at 4.1:1. */
+html[data-theme="crtamber"] .prow:hover, html[data-theme="crtamber"] .prow.active { background:#3a2800 }
+html[data-theme="crtamber"] ::selection { background:#473100; color:#ffb000 }
+html[data-theme="crtamber"] option:checked { background:#473100; color:#ffb000 }
+html[data-theme="crtamber"] #dropzone {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #ffc94d0f, transparent 70%),var(--bg);
+}
+html[data-theme="crtamber"] #dropzone.hover {
+  background:radial-gradient(ellipse 60% 50% at 50% 40%, #ffc94d24, transparent 70%),var(--bg);
+}
+html[data-theme="crtamber"] .modelgrid .chk > span[aria-label] { filter:grayscale(1) }
+
+/* The retro skins keep the arcade's look: a monospace page in both documents, faint
+   scanlines on the sidebar and a phosphor glow on the shared heading selectors. Control
+   sizes, native controls, interaction and stereo data stay shared; the texture and glow
+   switch off with reduced motion. */
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) {
+  --mono-page:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+  --sans:var(--mono-page);
+  font-family:var(--mono-page);
+}
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) body { font-family:inherit }
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) #left {
+  background-image:repeating-linear-gradient(transparent 0 3px,#0002 3px 4px);
+}
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) :is(label.h,#reftoggle,.phead,.tabs button.on) {
+  text-shadow:0 0 3px color-mix(in srgb,currentColor 22%,transparent);
+}
+/* Shared chrome that keeps a hue of its own: the browser's dark-mode link colour, and the
+   viewer's near-black ink on its accent fills. Colour-only overrides, no metric changes. */
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) a { color:var(--accent) }
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) :is(.mark .chip,.btn.primary) { color:var(--bg) }
+/* The viewer's 9.5px subheadings sit at 75% opacity, which drops them under 4.5:1 on a
+   single-hue panel. Full opacity keeps the faint colour and clears the bar. */
+html:is([data-theme="crtgreen"], [data-theme="crtamber"]) .subhead { opacity:1 }
+@media (prefers-reduced-motion: reduce) {
+  html:is([data-theme="crtgreen"], [data-theme="crtamber"]) #left { background-image:none }
+  html:is([data-theme="crtgreen"], [data-theme="crtamber"]) :is(label.h,#reftoggle,.phead,.tabs button.on) { text-shadow:none }
+}

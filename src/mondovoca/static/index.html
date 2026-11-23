@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><title>Mondovoca · Voice studio</title>
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48"><link rel="stylesheet" href="/studio.css"><link rel="stylesheet" href="/themes.css">
+<script src="/app.js" defer></script><script src="/tooltips.js" defer></script></head>
+<body><div class="app">
+<aside><header class="brand"><img class="brandmark" src="/goose.png" width="44" height="44" alt="" aria-hidden="true"><div><h1>Mondovoca</h1><p>Voice studio <span id="version">0.9.2</span></p></div></header>
+<form id="voice-form">
+<section><label for="model">Audio model</label><select id="model"><option value="tiny-voca">Tiny Voca</option></select><p id="model-note" class="hint"></p><button id="model-setup" type="button" class="mini">Model setup…</button></section>
+<fieldset id="tiny-controls" class="model-controls">
+<section><h2>Voice</h2><fieldset class="voices"><legend class="sr-only">Gender / base voice</legend>
+<label class="voice"><input type="radio" name="voice" value="F2" checked><span>Female<small>F2 · American English</small></span></label>
+<label class="voice"><input type="radio" name="voice" value="M2"><span>Male<small>M2 · American English</small></span></label></fieldset></section>
+<section><div class="section-top"><h2>Age styling</h2><label class="check"><input id="use-age" type="checkbox" checked> Apply preset</label></div>
+<div class="pair"><label>Age in years<input id="age" type="number" min="5" max="100" step="1" value="30" required></label>
+<label>Quick age<select id="quick-age" aria-label="Age in five-year increments"></select></label></div>
+<input id="age-range" aria-label="Age styling slider" type="range" min="5" max="100" step="1" value="30">
+<div class="spread muted"><span>Child</span><span>Adult</span><span>Older</span></div>
+<p class="hint">Age is a suggested sound, shaped with pitch and pace. The model has two fixed voices; it does not generate an exact age.</p></section>
+<section><h2>Delivery</h2><label>Starting style<select id="delivery"><option value="natural">Natural</option><option value="narration">Narration</option><option value="lively">Lively</option><option value="calm">Calm</option></select></label>
+<div class="tuning"><label for="speed">Speaking speed <output id="speed-value">1.00×</output></label><input id="speed" type="range" min="0.5" max="1.8" step="0.01" value="1" data-tooltip="Lower values speak more slowly; higher values speak faster."></div>
+<div class="tuning"><label for="pitch">Pitch <output id="pitch-value">0.0 st</output></label><input id="pitch" type="range" min="-6" max="6" step="0.1" value="0" data-tooltip="Pitch offset in semitones, applied inside the model. Extreme settings may reduce voice quality."></div>
+<div class="tuning"><label for="movement">Pitch movement <output id="movement-value">1.00×</output></label><input id="movement" type="range" min="0.5" max="1.5" step="0.01" value="1" data-tooltip="Lower values flatten intonation. Higher values make pitch movement more expressive."></div>
+<p id="tuning-note" class="hint">Age 30 preset</p>
+</section></fieldset><section><div class="pair"><label>Variation seed<input id="seed" type="number" min="0" max="2147483647" step="1" value="0" required data-tooltip="Reuse the same text, controls and seed to reproduce a take."></label><button id="reset" type="button" class="align-end">Reset tuning</button></div></section>
+<fieldset id="fish-controls" class="model-controls" hidden disabled>
+<section><label>Fish Audio mode<select id="fish-mode"><option value="tts">Generate a voice</option><option value="clone">Clone a reference voice</option></select></label>
+<p class="hint">English by default. Use inline directions such as [whispers] or [laughs], and &lt;|speaker:0|&gt; tags for dialogue. A generated voice varies by seed.</p>
+<div id="fish-clone" hidden><label>Reference audio<select id="fish-reference"><option value="">Upload a reference or choose a completed take…</option></select></label>
+<label>Upload reference WAV<input id="fish-reference-file" type="file" accept=".wav,audio/wav"></label>
+<label>Exact reference transcript<textarea id="fish-ref_text" rows="3" maxlength="5000"></textarea></label></div>
+<details><summary>Fish sampling and memory</summary>
+<label>Temperature<input id="fish-temperature" type="number" value="1" min="0.1" max="2" step="0.05" required></label>
+<label>Top P<input id="fish-top_p" type="number" value="0.9" min="0.01" max="1" step="0.01" required></label>
+<label>Top K<input id="fish-top_k" type="number" value="30" min="1" max="1000" required></label>
+<label>Maximum audio frames per chunk<input id="fish-max_frames" type="number" value="1024" min="32" max="4096" required></label>
+<label>Expert cache in VRAM (GiB)<input id="fish-expert_cache_gb" type="number" value="16" min="1" max="16" step="0.5" required></label>
+<p class="hint">Experts stay in system RAM. A 16 GiB expert cache targets about 22 GiB total VRAM on a 24 GB GPU; attention and other model weights use the rest. About 48 GB system RAM required. Loads on Generate and releases on completion or Stop. Low frame limits can cut off speech.</p>
+</details></section></fieldset>
+<fieldset id="auk-controls" class="model-controls" hidden disabled>
+<section><label>AuK mode<select id="auk-mode"><option value="design">Describe a voice</option><option value="clone">Clone a reference voice</option></select></label>
+<label>Voice description / delivery<textarea id="auk-instruct" rows="3" maxlength="2000" placeholder="A warm, clear English narrator with a relaxed pace"></textarea></label>
+<p class="hint">English is the default instruction. Describe another language explicitly if needed. AuK has no fixed speaker catalog.</p>
+<div id="auk-clone" hidden><label>Reference audio<select id="auk-reference"><option value="">Upload a reference or choose a completed take…</option></select></label>
+<label>Upload reference WAV<input id="auk-reference-file" type="file" accept=".wav,audio/wav"></label><p class="hint">Clean 1–60 second PCM WAV. No reference transcript is required.</p></div>
+<label>Target duration (seconds)<input id="auk-gen_seconds" type="number" value="5" min="0.1" max="120" step="0.1" required></label>
+<p class="hint">Match the duration to your script. A short target can cut off words; a long target can add silence or repetition.</p>
+<details><summary>AuK sampling and memory</summary>
+<label>Diffusion steps<input id="auk-nfe" type="number" value="32" min="1" max="128" required></label>
+<label>Guidance strength<input id="auk-cfg_strength" type="number" value="2" min="0" max="10" step="0.1" required></label>
+<label>Sway coefficient<input id="auk-sway_sampling_coef" type="number" value="-1" min="-1" max="1" step="0.1" required></label>
+<label class="check"><input id="auk-cpu_offload" type="checkbox">Offload encoder and diffusion model to CPU between stages</label>
+<p class="hint">CUDA and substantial VRAM/RAM required. Offloading reduces VRAM use. Loads only when you generate.</p></details></section></fieldset>
+<fieldset id="qwen-controls" class="model-controls" hidden disabled>
+<section><label>Qwen mode<select id="qwen-mode"><option value="custom">Preset speaker · CustomVoice</option><option value="design">Design a voice · VoiceDesign</option><option value="clone">Clone a voice · Base</option></select></label>
+<label>Language<select id="language"></select></label>
+<label id="speaker-field">Preset speaker<select id="speaker"></select></label>
+<label id="instruct-field">Voice description / delivery instructions<textarea id="instruct" rows="4" maxlength="2000" placeholder="Describe age, timbre, accent, emotion, pace or delivery. For example: a warm, low adult voice speaking slowly with quiet excitement."></textarea></label>
+<div id="clone-fields" hidden>
+<label>Reference audio<select id="reference"><option value="">Upload a reference or choose a completed take…</option></select></label>
+<label>Upload reference WAV<input id="reference-file" type="file" accept=".wav,audio/wav"></label>
+<p id="reference-note" class="hint">Use a clean 1–60 second PCM WAV; a short, clear sample works best. Completed takes can also become references.</p>
+<label>Exact reference transcript<textarea id="ref-text" rows="3" maxlength="5000" placeholder="What is said in the reference audio?"></textarea></label>
+<label class="check"><input id="embedding-only" type="checkbox"> Use speaker embedding only (no transcript)</label>
+<p class="hint">Transcript mode also uses reference audio context. Embedding-only mode copies voice identity without that context. Target language may differ from the reference.</p>
+</div>
+<p id="mode-note" class="hint"></p></section>
+<section><details><summary>Qwen generation settings</summary><p class="hint">Defaults match the installed 1.7B checkpoints. Higher token limits allow longer speech. Seeds repeat settings; GPU results may vary.</p>
+<label class="check"><input id="do_sample" type="checkbox" checked> Sample speech tokens</label>
+<div id="qwen-parameters"></div>
+<label class="check"><input id="subtalker_dosample" type="checkbox" checked> Sample acoustic tokens (subtalker)</label>
+<label class="check"><input id="non_streaming_mode" type="checkbox" checked> Full-text generation mode</label>
+<p class="hint">Preset and design default to full-text generation; cloning defaults to simulated streaming text. Both modes return a complete WAV for playback after generation.</p>
+</details></section></fieldset>
+<fieldset id="robin-controls" class="model-controls" hidden disabled>
+<section><label>Robin mode<select id="robin-mode" data-tooltip="Describe a voice in words, or condition the delivery on a recording you already have."><option value="design">Describe a voice</option><option value="reference">Condition from a recording</option></select></label>
+<label>Language<select id="robin-language" data-tooltip="English is the default. Mixed reads English and Japanese in one script."></select></label>
+<label>Voice description / delivery<textarea id="robin-instruct" rows="3" maxlength="2000" placeholder="A cheerful woman in her thirties, chatting casually"></textarea></label>
+<p class="hint">Describe the voice in words, or leave this empty and let a voice LoRA or a reference carry it. Inline tags such as [laughs] work anywhere in the script.</p>
+<div id="robin-clone" hidden><label>Reference audio<select id="robin-reference"><option value="">Upload a reference or choose a completed take…</option></select></label>
+<label>Upload reference WAV<input id="robin-reference-file" type="file" accept=".wav,audio/wav"></label>
+<label>Exact reference transcript (optional)<textarea id="robin-ref_text" rows="3" maxlength="5000" placeholder="What is said in the reference audio?"></textarea></label>
+<p class="hint">Clean 1–60 second PCM WAV. Robin conditions on the recording itself; its transcript is optional.</p></div>
+<div class="pair"><label>Voice LoRA<select id="robin-lora"></select></label>
+<label>LoRA strength<input id="robin-lora_strength" type="number" min="0" max="2" step="0.05" value="1" required data-tooltip="0 keeps the base voice; 1 applies the adapter as trained."></label></div>
+<input id="robin-lora-strength-range" aria-label="LoRA strength slider" type="range" min="0" max="2" step="0.05" value="1" data-tooltip="0 keeps the base voice; 1 applies the adapter as trained. Above 1 pushes the adapter harder.">
+<div class="spread muted"><span>Base voice</span><span>As trained</span><span>Stronger</span></div>
+<div id="robin-lora-custom" hidden><label>Custom LoRA path<input id="robin-lora-path" spellcheck="false" placeholder="/absolute/path/to/voice.safetensors" data-tooltip="An absolute .safetensors path on this computer."></label></div>
+<details><summary>Robin sampling</summary><p class="hint">Defaults come from Robin's own model configuration. Seeds repeat settings; GPU results may vary.</p>
+<label>Temperature<input id="robin-temperature" type="number" value="0.9" min="0" max="2" step="0.05" required data-tooltip="0 always picks the most likely token; higher values vary more."></label>
+<label>Top K<input id="robin-top_k" type="number" value="25" min="0" max="500" step="1" required data-tooltip="0 removes the limit and samples from the whole vocabulary."></label>
+<label>Top P<input id="robin-top_p" type="number" value="0.8" min="0.01" max="1" step="0.01" required data-tooltip="Cumulative token cutoff. Higher values allow rarer choices."></label>
+<label>Voice guidance (cfg)<input id="robin-cfg" type="number" value="1" min="1" max="10" step="0.1" required data-tooltip="Above 1 follows the voice description more closely."></label>
+<label>Decoder steps<input id="robin-steps" type="number" value="32" min="1" max="128" step="1" required data-tooltip="More steps take longer to render."></label>
+<label>Sampler<select id="robin-sampler"><option value="dpm_2">dpm_2</option><option value="dpmpp_2m">dpmpp_2m</option></select></label>
+<label class="check"><input id="robin-as_written" type="checkbox"> Read the script exactly as written</label>
+<p class="hint">For English, off spells out numbers and symbols before reading; on skips that step.</p></details></section></fieldset>
+<section><h2>Saved voice</h2><div class="pair"><input id="preset-name" aria-label="Voice preset name" placeholder="Preset name" maxlength="60"><button id="save-preset" type="button">Save voice</button></div>
+<label class="sr-only" for="presets">Saved voices</label><select id="presets"><option value="">Choose a saved voice…</option></select></section>
+<section class="appearance"><label for="theme">Colour theme</label>
+<select id="theme">
+  <option value="teal">Dark teal</option>
+  <option value="purple">Dark purple</option>
+  <option value="sage">Charcoal and sage</option>
+  <option value="midnight">Midnight blue and slate</option>
+  <option value="amber">Warm graphite and amber</option>
+  <option value="olive">Ink and muted olive</option>
+  <option value="aubergine">Deep aubergine and pewter</option>
+  <option value="monochrome">Monochrome</option>
+  <option value="espresso">Espresso and soft copper</option>
+  <option value="storm">Storm grey and ice blue</option>
+  <option value="abyss">Abyss and seafoam</option>
+  <option value="galactic">Galactic</option>
+  <option value="garnet">Garnet and ivory</option>
+  <option value="claret">Claret and pearl</option>
+  <option value="scarlet">Scarlet and graphite</option>
+  <option value="crimson">Crimson and steel</option>
+  <option value="cardinal">Cardinal red</option>
+  <option value="oxblood">Oxblood red</option>
+  <option value="crtgreen">Green phosphor CRT</option>
+  <option value="crtamber">Amber phosphor CRT</option>
+</select></section>
+<section><div class="section-top"><h2>Saved takes</h2><button id="output-setup" type="button" class="mini">Save location…</button></div><p id="output-location" class="location"></p></section>
+</form><footer id="engine-footer">Tiny Voca · CPU · English</footer></aside>
+<main><div class="results-bar"><div><span id="light" class="light"></span><strong>Voice studio</strong><span id="count" class="muted">0 takes</span></div><button id="integration" type="button" class="mini">Open WebUI connection</button></div>
+<div class="workspace"><section class="composer"><div class="section-top"><h2>Script</h2><span id="characters" class="muted">0 / 5,000</span></div>
+<label class="sr-only" for="text">Speech script</label><textarea id="text" maxlength="5000" rows="7" placeholder="Every voice has a story. Give this one a little character, and hear where it takes you."></textarea>
+<div class="script-tools"><button id="example" class="mini" type="button">Try an example</button><label class="file-button mini">Import text<input id="text-file" type="file" accept=".txt,text/plain"></label><label class="check"><input id="autoplay" type="checkbox" checked> Auto-play</label></div>
+<div class="actions"><button id="generate" class="primary" type="button">Generate speech</button><button id="compare" type="button" data-tooltip="Generate one take with F2 and one with M2, using the same text and tuning.">Compare both voices</button><button id="stop" type="button" disabled>Stop</button></div>
+<p id="status" role="status" aria-live="polite">Ready to give your words a voice.</p></section>
+<div class="section-top takes-heading"><h2>Your takes</h2><span class="muted">WAV · mono</span></div>
+<div id="empty" class="empty"><div class="sound-icon" aria-hidden="true">▂ ▅ █ ▆ ▃ ▇ ▄ ▂</div><h3>A voice, ready when you are.</h3><p>Choose a voice, shape its character, and generate your first take.</p><p class="hint">Audio stays on this machine.</p></div>
+<div id="takes" aria-label="Generated takes"></div></div></main></div>
+<dialog id="connection"><div class="section-top"><h3>Use Mondovoca in Open WebUI</h3><button id="close-connection" aria-label="Close connection details" type="button">×</button></div>
+<p>In Open WebUI, open <strong>Admin Panel → Settings → Audio</strong>. Choose the OpenAI text-to-speech engine and enter:</p>
+<dl><dt>API base URL</dt><dd id="api-base"></dd><dt>API key</dt><dd>local (placeholder)</dd><dt>Model</dt><dd id="api-model">tiny-voca</dd><dt>Voice / mode</dt><dd id="api-voice">F2 or M2</dd></dl>
+<p>For the current voice tuning, copy these values into the engine’s extra JSON parameters:</p><pre id="api-params"></pre><button id="copy-connection" type="button">Copy parameters</button>
+<p class="hint">This studio must be running. Loopback access assumes Open WebUI runs on this same machine, as the installed Python app does. Container networking needs separate configuration.</p></dialog>
+<dialog id="setup"><div class="section-top"><h3>Local model setup</h3><button id="close-setup" type="button" aria-label="Close model setup">×</button></div>
+<p>Choose existing local files and Python environments. Saving checks file availability without importing or loading a model. Nothing is downloaded.</p>
+<form id="setup-form"><h4>Tiny Voca · CPU</h4>
+<label>Python executable<input id="setup-tiny_python" required placeholder="/path/to/tiny-voca/.venv/bin/python"></label>
+<label>Checkpoint<input id="setup-tiny_checkpoint" required placeholder="/path/to/tiny-voca.pt"></label>
+<label>Phonemizer data folder<input id="setup-tiny_phonemizer" required placeholder="/path/to/phonemizer"></label>
+<h4>Qwen3-TTS · CUDA</h4>
+<label>Python executable<input id="setup-qwen_python" required placeholder="/path/to/qwen-environment/bin/python"></label>
+<label>Model parent folder<input id="setup-qwen_root" required placeholder="/path/to/qwen3-tts-models"></label>
+<p class="hint">The model folder contains Qwen3-TTS-12Hz-1.7B-CustomVoice, Qwen3-TTS-12Hz-1.7B-VoiceDesign and Qwen3-TTS-12Hz-1.7B-Base. Install qwen-tts in its own compatible Python environment. Each checkpoint needs its speech tokenizer files.</p>
+<h4>AuK · Base · CUDA</h4>
+<label>Python executable<input id="setup-auk_python" required placeholder="/path/to/AuK/.venv/bin/python"></label>
+<label>AuK checkpoint folder<input id="setup-auk_root" required placeholder="/path/to/AuK/ckpts/AuK"></label>
+<label>Omni 3B encoder folder<input id="setup-auk_encoder" required placeholder="/path/to/Qwen2.5-Omni-3B-abliterated"></label>
+<p class="hint">Checkpoint folder needs config.yaml, auk_base.safetensors and vae.safetensors. Encoder needs the complete compatible Transformers checkpoint and processor. No automatic weight downloads.</p>
+<h4>Fish Audio · Drama 3 INT8 · CUDA + RAM</h4>
+<label>Python executable<input id="setup-fish_python" required placeholder="/path/to/fish-speech/.venv/bin/python"></label>
+<label>Checkpoint folder<input id="setup-fish_root" required placeholder="/path/to/fish-speech/checkpoints/drama-3"></label>
+<label>Compatible runtime source<input id="setup-fish_runtime" required placeholder="/path/to/fish-speech-runtime"></label>
+<label>Separate ComfyUI library source<input id="setup-fish_comfy" required placeholder="/path/to/fish-speech-comfy"></label>
+<p class="hint">Requires drama3_int8experts_bf16.safetensors and drama3_codec.safetensors. The official Fish runtime cannot load this converted INT8 format. No automatic downloads.</p>
+<h4>Robin · Fixed Seed · CUDA</h4>
+<label>Python executable<input id="setup-robin_python" required placeholder="/path/to/robin/.venv/bin/python"></label>
+<label>Model folder<input id="setup-robin_root" required placeholder="/path/to/robin/models"></label>
+<label>Voice LoRA<input id="setup-robin_lora" placeholder="/path/to/robin/models/robin_character_lora.safetensors"></label>
+<p class="hint">One flat folder holding robin_v1.safetensors, robin_vae.safetensors, speech_tokenizer_v3_25hz.onnx, config.json and tokenizer.json; the VAE and tokenizer stay beside the main checkpoint. The voice LoRA is optional and may stay empty. No automatic downloads.</p>
+<p id="setup-status" role="status" class="hint"></p><button type="submit">Save model locations</button></form></dialog>
+<dialog id="output"><div class="section-top"><h3>Saved takes</h3><button id="close-output" type="button" aria-label="Close saved takes settings">×</button></div>
+<p>Each take is kept once: in your browser’s download folder or in a folder on this computer.</p>
+<form id="output-form"><label>Current location<input id="output-current" readonly></label>
+<label>Save takes to<select id="output-mode"><option value="browser">My browser’s download folder</option><option value="folder">A folder on this computer</option></select></label>
+<label>Folder<input id="output-dir" spellcheck="false" placeholder="/path/to/saved/takes"></label>
+<div class="output-actions"><button id="output-choose" type="button">Choose folder…</button><button id="output-save" type="submit">Save output setting</button></div>
+<p class="hint">The chooser opens your system’s folder dialog. Browsers reveal only the chosen folder’s name, so Mondovoca looks for it beside the current folder or inside your home folder. Enter the full path for any other location.</p>
+<p class="hint">Browser-download mode downloads each finished take automatically and keeps a working copy only while the studio runs, so takes stay playable and can be reused as clone references. Folder mode keeps takes on this computer and does not download them.</p>
+<p id="output-status" role="status" class="hint"></p></form>
+<p id="output-note" class="hint"></p></dialog>
+</body></html>
